@@ -6,6 +6,7 @@ require("bartus.core.options")
 require("bartus.pack")
 require("bartus.core.keymaps")
 require("bartus.core.autocmds")
+require("bartus.core.keymaps_doc")
 
 require("bartus.plugins.find")
 require("bartus.plugins.treesitter")
