@@ -26,5 +26,14 @@ vim.o.foldlevel = 99 -- domyślnie wszystko rozwinięte
 vim.o.foldlevelstart = 99
 
 vim.diagnostic.config({
-	virtual_text = true, -- błędy LSP na końcu linii
+	virtual_text = { prefix = "●" }, -- błędy LSP na końcu linii
+	severity_sort = true,           -- błąd wygrywa z ostrzeżeniem w tej samej linii
+	signs = {                       -- ikony w kolumnie po lewej zamiast liter E/W/I/H
+		text = {
+			[vim.diagnostic.severity.ERROR] = "",
+			[vim.diagnostic.severity.WARN] = "",
+			[vim.diagnostic.severity.INFO] = "",
+			[vim.diagnostic.severity.HINT] = "󰌵",
+		},
+	},
 })
