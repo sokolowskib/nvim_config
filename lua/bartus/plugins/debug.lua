@@ -1,11 +1,13 @@
 -- Debugowanie (nvim-dap + dap-ui): C/C++ i Rust przez codelldb, C# przez netcoredbg.
 -- Skróty: <F5> <F9> <F11> <F12>, <leader>b (breakpoint), <leader>d (debug/.NET) → dr.
--- Zależy od: nvim-dap, nvim-dap-ui, nvim-nio, netcoredbg-macOS-arm64.nvim, codelldb z masona.
+-- Zależy od: nvim-dap, nvim-dap-ui, nvim-dap-virtual-text, nvim-nio, netcoredbg-macOS-arm64.nvim, codelldb z masona.
 
 local dap = require("dap")
 local dapui = require("dapui")
 
 dapui.setup()
+-- wartości zmiennych na końcu linii w trakcie debugowania (x = 5)
+require("nvim-dap-virtual-text").setup({})
 require('netcoredbg-macOS-arm64').setup(require('dap'))
 
 -- dap-ui otwiera się sam po starcie sesji; zamykanie: :lua require('dapui').close()
