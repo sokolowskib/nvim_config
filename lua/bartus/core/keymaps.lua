@@ -1,0 +1,26 @@
+vim.keymap.set('n', '<leader>o', ':update<CR> :source<CR>')
+vim.keymap.set('n', '<leader>tt', ':below terminal<CR>')
+vim.keymap.set('n', '<leader>w', ':write<CR>')
+vim.keymap.set('n', '<leader>q', ':quit<CR>')
+--vim.keymap.set('n', '<leader>cf', conform.format())
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', 'g[', vim.diagnostic.goto_next)
+vim.keymap.set('n', 'g]', vim.diagnostic.goto_prev)
+vim.keymap.set('n', '<leader>ft', ':Oil<CR>')
+vim.keymap.set({ "x", "o" }, "aq", 'a"')
+vim.keymap.set({ "x", "o" }, "iq", 'i"')
+
+vim.keymap.set('n', '<leader>v', ':vsplit<CR>')
+
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
+vim.keymap.set('n', '<leader>tm', ':term<CR>')
+
+vim.keymap.set('n', '<leader>,', ':vertical resize -2<CR>')
+vim.keymap.set('n', '<leader>.', ':vertical resize +2<CR>')
+
+vim.keymap.set('n', '<leader>tr', function()
+	vim.cmd('botright vsplit | terminal')
+	vim.cmd('vertical resize ' .. math.floor(vim.o.columns * 0.25))
+	vim.cmd('startinsert')
+end, { desc = '25% terminal on right' })
