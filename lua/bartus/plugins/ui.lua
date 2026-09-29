@@ -1,16 +1,20 @@
+-- Wygląd i podpowiedzi: which-key (grupy prefiksów), kolory, statusline, animacje kursora/scrolla.
+-- Brak własnych keymapów; neoscroll animuje <C-u> <C-d> <C-b> <C-f> <C-y> <C-e> zz zt zb.
+-- Zależy od: which-key.nvim, rose-pine, lualine.nvim, smear-cursor.nvim, neoscroll.nvim.
+
 require("which-key").setup({
 	preset = "modern", -- or "classic" / "helix"
 	delay = 300,
 })
 
--- group names so the popup is readable
+-- nazwy grup w okienku which-key (po wciśnięciu <leader> i odczekaniu 300 ms)
 local wk = require("which-key")
 wk.add({
-	{ "<leader>f", group = "find" },
-	{ "<leader>t", group = "terminal/toggle" },
-	{ "<leader>c", group = "code" },
-	{ "<leader>d", group = "debug/dll" },
-	{ "<leader>g", group = "goto" },
+	{ "<leader>f", group = "Szukaj (find)" },
+	{ "<leader>t", group = "Terminal" },
+	{ "<leader>c", group = "Kod i LSP" },
+	{ "<leader>d", group = "Debug i .NET" },
+	{ "<leader>g", group = "Przejdź do (goto)" },
 })
 
 require("smear_cursor").setup({
@@ -39,7 +43,25 @@ require("neoscroll").setup({
 	},
 })
 
+-- neoscroll zakłada mapy bez opisu; zakładamy je ponownie z tym samym callbackiem + desc
+for key, desc in pairs({
+	["<C-u>"] = "Przewiń pół ekranu w górę",
+	["<C-d>"] = "Przewiń pół ekranu w dół",
+	["<C-b>"] = "Przewiń ekran w górę",
+	["<C-f>"] = "Przewiń ekran w dół",
+	["<C-y>"] = "Przesuń widok w górę",
+	["<C-e>"] = "Przesuń widok w dół",
+	["zt"] = "Ustaw linię na górze ekranu",
+	["zz"] = "Ustaw linię na środku ekranu",
+	["zb"] = "Ustaw linię na dole ekranu",
+}) do
+	local callback = vim.fn.maparg(key, "n", false, true).callback
+	vim.keymap.set({ "n", "v", "x" }, key, callback, { desc = desc })
+end
+
 require "lualine".setup({})
+
+-- motyw kolorów + własne tło
 require("rose-pine").setup({
 	variant = "moon",
 	styles = {

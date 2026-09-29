@@ -1,3 +1,7 @@
+-- Uzupełnianie kodu (blink.cmp), sygnatury funkcji i „inteligentny” Tab w trybie insert.
+-- Skróty (insert): <C-space> <C-e> <C-y> <CR> <Tab> <S-Tab> <C-n> <C-p>, bez <leader>.
+-- Zależy od: blink.cmp; snippety z snippets/<filetype>.json (np. cs.json).
+
 require("blink.cmp").setup({
 	sources = {
 		default = { 'lsp', 'path', 'buffer', 'snippets' },
@@ -33,7 +37,9 @@ require("blink.cmp").setup({
 	},
 })
 
--- poczatek szpatu
+-- Tab: menu blink → skok w snippecie → wyjście za ) ] } " ' → zwykły Tab
+-- Uwaga: gdy menu blink jest otwarte, pierwszeństwo ma buforowa mapa blinka (<Tab> = select_next),
+-- więc gałąź blink.accept() poniżej praktycznie się nie wykonuje. Zob. propozycje w README.
 vim.keymap.set('i', '<Tab>', function()
 	-- First check if blink.cmp has an active completion menu
 	local blink = require('blink.cmp')
@@ -57,7 +63,7 @@ vim.keymap.set('i', '<Tab>', function()
 	else
 		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n', false)
 	end
-end, { desc = "Smart Tab" })
+end, { desc = "Akceptuj podpowiedź, skocz w snippecie lub za nawias" })
 
 vim.keymap.set('i', '<S-Tab>', function()
 	-- Check if blink.cmp has an active completion menu
@@ -74,4 +80,4 @@ vim.keymap.set('i', '<S-Tab>', function()
 
 	-- Otherwise, just do a regular Shift-Tab
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<S-Tab>', true, false, true), 'n', false)
-end, { desc = "Smart Shift-Tab" })
+end, { desc = "Poprzednia podpowiedź lub cofnij w snippecie" })

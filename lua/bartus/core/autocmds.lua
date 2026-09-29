@@ -1,5 +1,8 @@
+-- Autokomendy: powrót do ostatniej pozycji w pliku, podświetlenie skopiowanego tekstu.
+-- Brak keymapów. Zależy tylko od wbudowanego API Neovima.
+
 vim.api.nvim_create_autocmd('BufReadPost', {
-	group = vim.api.nvim_create_augroup('mariasolos/last_location', { clear = true }),
+	group = vim.api.nvim_create_augroup('bartus/last_location', { clear = true }),
 	desc = 'Go to the last location when opening a buffer',
 	callback = function(args)
 		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
@@ -9,6 +12,7 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 		end
 	end,
 })
+
 vim.api.nvim_create_autocmd('TextYankPost', {
 	callback = function() vim.highlight.on_yank({ timeout = 150 }) end,
 })

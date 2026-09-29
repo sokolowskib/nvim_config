@@ -1,21 +1,25 @@
+-- Debugowanie (nvim-dap + dap-ui): C/C++ przez codelldb, C# przez netcoredbg.
+-- Skróty: <F5> <F9> <F11> <F12>, <leader>b (breakpoint), <leader>d (debug/.NET) → dr.
+-- Zależy od: nvim-dap, nvim-dap-ui, nvim-nio, netcoredbg-macOS-arm64.nvim, codelldb z masona.
+
 local dap = require("dap")
 local dapui = require("dapui")
 
 dapui.setup()
 require('netcoredbg-macOS-arm64').setup(require('dap'))
 
--- Auto open/close UI
+-- dap-ui otwiera się sam po starcie sesji; zamykanie: :lua require('dapui').close()
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()
 end
 -- Keymaps
-vim.keymap.set('n', '<F5>', dap.continue)
-vim.keymap.set('n', '<F9>', dap.step_over)
-vim.keymap.set('n', '<F11>', dap.step_into)
-vim.keymap.set('n', '<F12>', dap.step_out)
-vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint)
+vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: uruchom / kontynuuj' })
+vim.keymap.set('n', '<F9>', dap.step_over, { desc = 'Debug: następna linia (step over)' })
+vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'Debug: wejdź do funkcji (step into)' })
+vim.keymap.set('n', '<F12>', dap.step_out, { desc = 'Debug: wyjdź z funkcji (step out)' })
+vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: przełącz breakpoint' })
 
--- === C# ===
+-- === C# === (adapter coreclr ustawia netcoredbg-macOS-arm64 powyżej)
 -- Basic launch configuration
 dap.configurations.cs = {
 	{
@@ -90,7 +94,7 @@ dap.configurations.cpp = {
 
 dap.configurations.c = dap.configurations.cpp
 
--- do csproj wrzuca plik
+-- .NET: wkleja do .csproj blok <Reference> dla wskazanego DLL
 vim.keymap.set('n', '<leader>dr', function()
 	local dll = vim.fn.input('DLL path: ', '', 'file')
 	if dll == '' then return end
@@ -103,4 +107,4 @@ vim.keymap.set('n', '<leader>dr', function()
 		'  </ItemGroup>',
 	}
 	vim.api.nvim_put(lines, 'l', true, true)
-end, { desc = 'Insert DLL reference' })
+end, { desc = 'Wstaw referencję DLL do .csproj' })
