@@ -26,7 +26,18 @@ require("blink.cmp").setup({
 	completion = {
 		ghost_text = {
 			enabled = true,
-		}
+		},
+		-- dokumentacja wybranej podpowiedzi pojawia się sama obok menu
+		documentation = {
+			auto_show = true,
+			auto_show_delay_ms = 300,
+		},
+		-- menu: ikona, nazwa, a z prawej rodzaj (Function, Field, Snippet…)
+		menu = {
+			draw = {
+				columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "kind" } },
+			},
+		},
 	},
 	signature = {
 		enabled = true,
