@@ -1,0 +1,52 @@
+{
+  "summary": {
+    "prefix": "///",
+    "body": [
+      "/// <summary>",
+      "/// ${1:Description}",
+      "/// </summary>"
+    ]
+  },
+  "method doc 1 param": {
+    "prefix": "///m1",
+    "body": [
+      "/// <summary>",
+      "/// ${1:Method description}",
+      "/// </summary>",
+      "/// <param name=\"${2:param}\">${3:description}</param>",
+      "/// <returns>${4:return description}</returns>"
+    ]
+  },
+  "method doc 2 params": {
+    "prefix": "///m2",
+    "body": [
+      "/// <summary>",
+      "/// ${1:Method description}",
+      "/// </summary>",
+      "/// <param name=\"${2:param1}\">${3:description}</param>",
+      "/// <param name=\"${4:param2}\">${5:description}</param>",
+      "/// <returns>${6:return description}</returns>"
+    ]
+  },
+  "method doc 3 params": {
+    "prefix": "///m3",
+    "body": [
+      "/// <summary>",
+      "/// ${1:Method description}",
+      "/// </summary>",
+      "/// <param name=\"${2:param1}\">${3:description}</param>",
+      "/// <param name=\"${4:param2}\">${5:description}</param>",
+      "/// <param name=\"${6:param3}\">${7:description}</param>",
+      "/// <returns>${8:return description}</returns>"
+    ]
+  },
+  "method doc void": {
+    "prefix": "///v",
+    "body": [
+      "/// <summary>",
+      "/// ${1:Method description}",
+      "/// </summary>",
+      "/// <param name=\"${2:param}\">${3:description}</param>"
+    ]
+  }
+}
