@@ -9,8 +9,8 @@ vim.keymap.set('n', '<leader>o', ':update<CR> :source<CR>', { desc = 'Zapisz i w
 
 -- diagnostyka (błędy/ostrzeżenia LSP)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Pokaż diagnostykę pod kursorem' })
-vim.keymap.set('n', 'g[', vim.diagnostic.goto_next, { desc = 'Przejdź do następnej diagnostyki' })
-vim.keymap.set('n', 'g]', vim.diagnostic.goto_prev, { desc = 'Przejdź do poprzedniej diagnostyki' })
+vim.keymap.set('n', 'g[', function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = 'Przejdź do następnej diagnostyki' })
+vim.keymap.set('n', 'g]', function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = 'Przejdź do poprzedniej diagnostyki' })
 
 -- textobjecty dla cudzysłowu: ciq, daq, viq…
 vim.keymap.set({ "x", "o" }, "aq", 'a"', { desc = 'Zaznacz "…" z cudzysłowami' })

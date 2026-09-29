@@ -12,13 +12,13 @@ require "conform".setup({
 	},
 	format_on_save = {
 		timeout_ms = 500,
-		lsp_fallback = true,
+		lsp_format = "fallback",
 	},
 })
 
 vim.keymap.set({ 'n', 'v' }, '<leader>cf', function()
 	require('conform').format({
-		lsp_fallback = true,
+		lsp_format = "fallback",
 		async = false,
 		timeout_ms = 500,
 	})
