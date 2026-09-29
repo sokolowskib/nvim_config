@@ -175,7 +175,8 @@ cargo new nazwa && cd nazwa && nvim src/main.rs
 projektu po `Cargo.toml`. Bez niego `:LspInfo` pokaże `Root directory: nil`,
 a podpowiedzi, błędy i skoki nie zadziałają.
 
-- Pierwsze otwarcie projektu indeksuje zależności (paski postępu na dole). Poczekaj,
+- Pierwsze otwarcie projektu indeksuje zależności. Postęp nie jest nigdzie
+  wyświetlany, więc przez kilkanaście sekund `K` i `gd` mogą milczeć. Poczekaj,
   zanim uznasz, że LSP „nie działa”.
 - Po zmianie `Cargo.toml` (nowa zależność) zapisz plik. Jeśli podpowiedzi dalej
   nie widzą crate'a, użyj `:LspRestart`.
