@@ -23,6 +23,7 @@ vim.pack.add({
 	{ src = "https://github.com/sphamba/smear-cursor.nvim" },
 	{ src = "https://github.com/karb94/neoscroll.nvim" },
 	{ src = "https://github.com/nvim-mini/mini.icons" },
+	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 	{ src = "https://github.com/j-hui/fidget.nvim" },
 
 })
