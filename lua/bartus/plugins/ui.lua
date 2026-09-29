@@ -40,17 +40,6 @@ require("neoscroll").setup({
 })
 
 require "lualine".setup({})
-require "catppuccin".setup({
-	flavour = "mocha",
-	transparent_background = false,
-	term_colors = false,
-})
-require "tokyonight".setup({
-	style = "night",
-})
-require("vague").setup({
-	italic = false,
-})
 require("rose-pine").setup({
 	variant = "moon",
 	styles = {

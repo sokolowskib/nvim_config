@@ -1,7 +1,5 @@
 vim.pack.add({
-	{ src = "https://github.com/vague2k/vague.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/echasnovski/mini.pick" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/saghen/blink.cmp" },
 	{ src = "https://github.com/tmsvg/pear-tree" },
@@ -19,11 +17,8 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/catppuccin/nvim" },
-	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
 	{ src = "https://github.com/folke/todo-comments.nvim" },
-	{ src = "https://github.com/olimorris/codecompanion.nvim" },
 	{ src = "https://github.com/folke/which-key.nvim" },
 	{ src = "https://github.com/sphamba/smear-cursor.nvim" },
 	{ src = "https://github.com/karb94/neoscroll.nvim" }

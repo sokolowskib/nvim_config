@@ -8,9 +8,6 @@ require('netcoredbg-macOS-arm64').setup(require('dap'))
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()
 end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-	--dapui.close()
-end
 -- Keymaps
 vim.keymap.set('n', '<F5>', dap.continue)
 vim.keymap.set('n', '<F9>', dap.step_over)
@@ -18,45 +15,7 @@ vim.keymap.set('n', '<F11>', dap.step_into)
 vim.keymap.set('n', '<F12>', dap.step_out)
 vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint)
 
--- === LUA ===
-dap.adapters["local-lua"] = {
-	type = "executable",
-	command = "node",
-	args = {
-		vim.fn.stdpath("data") .. "/debuggers/local-lua-debugger-vscode/extension/debugAdapter.js"
-	},
-	enrich_config = function(config, on_config)
-		if not config["extensionPath"] then
-			local c = vim.deepcopy(config)
-			c.extensionPath = vim.fn.stdpath("data") .. "/debuggers/local-lua-debugger-vscode/"
-			on_config(c)
-		else
-			on_config(config)
-		end
-	end,
-}
-
-dap.configurations.lua = {
-	{
-		type = "local-lua",
-		request = "launch",
-		name = "Debug current file",
-		program = {
-			lua = "lua",
-			file = "${file}",
-		},
-	},
-}
-
 -- === C# ===
-local mason_path = vim.fn.stdpath("data") ..
-	"/site/pack/core/opt/netcoredbg-macOS-arm64.nvim/netcoredbg/netcoredbg"
-dap.adapters.coreclr = {
-	type = 'executable',
-	command = mason_path,
-	args = { '--interpreter=vscode' }
-}
-
 -- Basic launch configuration
 dap.configurations.cs = {
 	{

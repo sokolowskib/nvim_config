@@ -1,7 +1,4 @@
 return {
-	on_attach = function()
-		print("this will print when roslyn attaches")
-	end,
 	settings = {
 		["csharp|inlay_hints"] = {
 			csharp_enable_inlay_hints_for_implicit_object_creation = true,

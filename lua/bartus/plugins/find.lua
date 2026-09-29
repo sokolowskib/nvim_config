@@ -11,8 +11,4 @@ vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols)
 vim.keymap.set('n', '<leader>fw', builtin.lsp_workspace_symbols)
 vim.keymap.set('n', '<leader>fd', ':TodoTelescope<CR>')
 
-require "mini.pick".setup()
 require "oil".setup()
---vim.keymap.set('n', '<leader>ff', ':Pick files<CR>')
---vim.keymap.set('n', '<leader>h', ':Pick help<CR>')
---vim.keymap.set('n', '<leader>fi', ":Pick grep<CR>")

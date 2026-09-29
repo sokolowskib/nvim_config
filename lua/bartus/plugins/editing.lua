@@ -1,7 +1,5 @@
 --TODO
-require "todo-comments".setup({
-	dependencies = { "nvim-lua/plenary.nvim" },
-})
+require "todo-comments".setup({})
 
 require "skel-nvim".setup({
 	mappings = {

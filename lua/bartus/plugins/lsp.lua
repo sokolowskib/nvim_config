@@ -9,8 +9,7 @@ vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = "rename in projec
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = "code actions" })
 
 --servery jezykowe
-vim.lsp.enable({ "roslyn", 'omnisharp', 'pyright', 'clangd', 'lua_ls', 'harper-ls', 'emmet_ls', 'html',
-	'htmlbeautifier', 'cssls', 'air', 'rust_analyzer' })
+vim.lsp.enable({ 'roslyn', 'pyright', 'clangd', 'lua_ls', 'emmet_ls', 'html', 'cssls', 'air', 'rust_analyzer' })
 vim.lsp.config('*', {
 	capabilities = require('blink.cmp').get_lsp_capabilities({
 		textDocument = {
