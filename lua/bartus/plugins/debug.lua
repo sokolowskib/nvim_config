@@ -1,4 +1,4 @@
--- Debugowanie (nvim-dap + dap-ui): C/C++ przez codelldb, C# przez netcoredbg.
+-- Debugowanie (nvim-dap + dap-ui): C/C++ i Rust przez codelldb, C# przez netcoredbg.
 -- Skróty: <F5> <F9> <F11> <F12>, <leader>b (breakpoint), <leader>d (debug/.NET) → dr.
 -- Zależy od: nvim-dap, nvim-dap-ui, nvim-nio, netcoredbg-macOS-arm64.nvim, codelldb z masona.
 
@@ -93,6 +93,34 @@ dap.configurations.cpp = {
 }
 
 dap.configurations.c = dap.configurations.cpp
+
+-- === Rust === (ten sam codelldb; najpierw `cargo build`, nvim otwarty w katalogu z Cargo.toml)
+dap.configurations.rust = {
+	{
+		name = "Launch cargo binary",
+		type = "codelldb",
+		request = "launch",
+		program = function()
+			local cwd = vim.fn.getcwd()
+
+			-- binarka nazywa się jak pakiet z Cargo.toml: target/debug/<name>
+			if vim.fn.filereadable(cwd .. "/Cargo.toml") == 1 then
+				for _, line in ipairs(vim.fn.readfile(cwd .. "/Cargo.toml")) do
+					local name = line:match('^name%s*=%s*"(.-)"')
+					if name and vim.fn.filereadable(cwd .. "/target/debug/" .. name) == 1 then
+						return cwd .. "/target/debug/" .. name
+					end
+				end
+			end
+
+			-- Fallback to manual input if binary not found
+			return vim.fn.input('Path to executable: ', cwd .. '/target/debug/', 'file')
+		end,
+		cwd = '${workspaceFolder}',
+		stopOnEntry = false,
+		sourceLanguages = { "rust" },
+	},
+}
 
 -- .NET: wkleja do .csproj blok <Reference> dla wskazanego DLL
 vim.keymap.set('n', '<leader>dr', function()
