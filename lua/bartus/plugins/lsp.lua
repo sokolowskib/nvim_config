@@ -1,6 +1,6 @@
 -- LSP: instalacja serwerów (mason), włączenie serwerów i skróty dla akcji na kodzie.
 -- Prefiks: <leader>c (code) → ca, cr. Domyślne mapy Neovima: K, grn, gra, grr, gri, gO, ]d [d.
--- Zależy od: mason.nvim, nvim-lspconfig (gotowe konfiguracje), roslyn.nvim (C#), blink.cmp, fidget.nvim.
+-- Zależy od: mason.nvim, nvim-lspconfig (gotowe konfiguracje), roslyn.nvim (C#), blink.cmp.
 -- Własne ustawienia serwera: lsp/<nazwa>.lua (np. lsp/roslyn.lua), łączone z lspconfig.
 
 require "mason".setup({
@@ -22,6 +22,3 @@ vim.lsp.config('*', {
 		},
 	}),
 })
-
--- postęp serwerów (np. "rust-analyzer: indexing 45/120") w prawym dolnym rogu
-require("fidget").setup({})
