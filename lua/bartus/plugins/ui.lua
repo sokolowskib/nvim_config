@@ -15,6 +15,7 @@ wk.add({
 	{ "<leader>c", group = "Kod i LSP" },
 	{ "<leader>d", group = "Debug i .NET" },
 	{ "<leader>g", group = "Przejdź do (goto)" },
+	{ "<leader>j", group = "Jupyter (notebooki)" },
 })
 
 require("smear_cursor").setup({

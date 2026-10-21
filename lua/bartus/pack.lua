@@ -1,3 +1,28 @@
+-- Hooki budowania (vim.pack nie ma `build` jak lazy.nvim): muszą być zdefiniowane
+-- PRZED vim.pack.add, żeby złapać pierwszą instalację.
+vim.api.nvim_create_autocmd("PackChanged", {
+	callback = function(ev)
+		local d = ev.data
+		if d.spec.name == "markdown-preview.nvim" and (d.kind == "install" or d.kind == "update") then
+			-- pobiera gotową binarkę do app/bin/
+			vim.system({ "./install.sh" }, { cwd = d.path .. "/app" })
+		end
+		if d.spec.name == "molten-nvim" and (d.kind == "install" or d.kind == "update") then
+			-- remote plugin w Pythonie: rejestruje komendy w rplugin.vim. Komenda
+			-- :UpdateRemotePlugins istnieje dopiero po starcie (VimEnter)
+			local function register()
+				vim.cmd.packadd("molten-nvim")
+				vim.cmd("UpdateRemotePlugins")
+			end
+			if vim.v.vim_did_enter == 1 then
+				register()
+			else
+				vim.api.nvim_create_autocmd("VimEnter", { once = true, callback = register })
+			end
+		end
+	end,
+})
+
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
@@ -25,5 +50,12 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-mini/mini.icons" },
 	{ src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
+	{ src = "https://github.com/iamcco/markdown-preview.nvim" },
+	{ src = "https://github.com/GCBallesteros/jupytext.nvim" },
+	{ src = "https://github.com/benlubas/molten-nvim" },
+	{ src = "https://github.com/3rd/image.nvim" },
+	{ src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
+	{ src = "https://github.com/jmbuhr/otter.nvim" },
+	{ src = "https://github.com/quarto-dev/quarto-nvim" },
 
 })

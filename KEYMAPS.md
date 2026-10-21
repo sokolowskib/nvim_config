@@ -40,6 +40,19 @@ Tryby: n = normal, i = insert, x = visual, s = select, o = operator (po d/c/y), 
 | n | `<leader>ft` | Otwórz przeglądarkę plików (Oil) |
 | n | `<leader>fw` | Znajdź symbol w projekcie (LSP) |
 | n | `<leader>gd` | Przejdź do definicji (LSP) |
+| n | `<leader>ja` | Uruchom wszystkie komórki |
+| n | `<leader>jb` | Uruchom komórki do bieżącej włącznie |
+| n | `<leader>jc` | Dodaj komórkę kodu poniżej |
+| n | `<leader>jd` | Usuń wynik komórki |
+| n | `<leader>jh` | Ukryj okno wyniku |
+| n | `<leader>ji` | Uruchom kernel Jupytera |
+| n | `<leader>jk` | Zrestartuj kernel (czyści wyniki) |
+| n | `<leader>jl` | Uruchom linię |
+| n | `<leader>jn` | Uruchom komórkę i przejdź do następnej |
+| n | `<leader>jo` | Pokaż wynik w oknie (drugi raz: wejdź) |
+| n | `<leader>jr` | Uruchom komórkę |
+| x | `<leader>jr` | Uruchom zaznaczenie |
+| n | `<leader>jx` | Przerwij wykonywanie |
 | n | `<leader>o` | Zapisz i wczytaj bieżący plik (:source) |
 | n | `<leader>q` | Zamknij okno |
 | n | `<leader>tm` | Otwórz terminal w bieżącym oknie |
@@ -51,8 +64,10 @@ Tryby: n = normal, i = insert, x = visual, s = select, o = operator (po d/c/y), 
 | i | `<Tab>` | Akceptuj podpowiedź, skocz w snippecie lub za nawias |
 | n, x, o | `[c` | Przejdź do poprzedniej klasy |
 | n, x, o | `[f` | Przejdź do poprzedniej funkcji |
+| n, x, o | `[j` | Przejdź do poprzedniej komórki |
 | n, x, o | `]c` | Przejdź do następnej klasy |
 | n, x, o | `]f` | Przejdź do następnej funkcji |
+| n, x, o | `]j` | Przejdź do następnej komórki |
 | x, o | `aa` | Zaznacz parametr z przecinkiem |
 | x, o | `ac` | Zaznacz całą klasę |
 | x, o | `af` | Zaznacz całą funkcję |
@@ -74,10 +89,7 @@ Tryby: n = normal, i = insert, x = visual, s = select, o = operator (po d/c/y), 
 | x | `#` | :help v_#-default |
 | n | `&` | :help &-default |
 | x | `*` | :help v_star-default |
-| x | `<BS>` | Shrink selection to previous named node |
 | i, s | `<C-S>` | vim.lsp.buf.signature_help() |
-| x | `<C-Space>` | Increment selection to named node |
-| n | `<C-Space>` | Start selecting nodes with nvim-treesitter |
 | i | `<C-U>` | :help i_CTRL-U-default |
 | i | `<C-W>` | :help i_CTRL-W-default |
 | n | `<C-W><C-D>` | Show diagnostics under the cursor |
@@ -123,7 +135,6 @@ Tryby: n = normal, i = insert, x = visual, s = select, o = operator (po d/c/y), 
 | n | `gcc` | Toggle comment line |
 | n | `gO` | vim.lsp.buf.document_symbol() |
 | n, x | `gra` | vim.lsp.buf.code_action() |
-| x | `grc` | Increment selection to surrounding scope |
 | n | `gri` | vim.lsp.buf.implementation() |
 | n | `grn` | vim.lsp.buf.rename() |
 | n | `grr` | vim.lsp.buf.references() |

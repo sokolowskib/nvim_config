@@ -17,6 +17,13 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
 vim.o.swapfile = false
+
+-- Python dla pluginów (molten): osobny venv z pynvim, jupyter_client, jupytext
+-- (patrz README, sekcja o notebookach); bin/ na końcu PATH daje komendę `jupytext`
+-- bez przysłaniania systemowego pythona
+local nvim_venv = vim.fn.expand("~/.virtualenvs/neovim")
+vim.g.python3_host_prog = nvim_venv .. "/bin/python"
+vim.env.PATH = vim.env.PATH .. ":" .. nvim_venv .. "/bin"
 vim.o.clipboard = "unnamedplus" -- y/p korzystają ze schowka systemowego
 
 -- zwijanie kodu przez treesitter; zf/zo/zc/za jak zwykle

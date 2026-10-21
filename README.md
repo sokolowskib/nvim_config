@@ -18,9 +18,10 @@ albo zajrzyj do [KEYMAPS.md](KEYMAPS.md). Ta ściąga jest generowana komendą
 5. [Kompilacja i skakanie po błędach](#5-kompilacja-i-skakanie-po-błędach)
 6. [Debugowanie C / C++ / Rust / C# (DAP)](#6-debugowanie-c--c--rust--c-dap)
 7. [Edycja: szablony, snippety, surround, textobjecty](#7-edycja-szablony-snippety-surround-textobjecty)
-8. [Jak zmienić config (plugin, serwer LSP, skrót)](#8-jak-zmienić-config)
-9. [Instalacja od zera na nowym Macu](#9-instalacja-od-zera-na-nowym-macu)
-10. [Troubleshooting](#10-troubleshooting)
+8. [Notebooki Jupytera (.ipynb)](#8-notebooki-jupytera-ipynb)
+9. [Jak zmienić config (plugin, serwer LSP, skrót)](#9-jak-zmienić-config)
+10. [Instalacja od zera na nowym Macu](#10-instalacja-od-zera-na-nowym-macu)
+11. [Troubleshooting](#11-troubleshooting)
 
 ---
 
@@ -49,6 +50,7 @@ albo zajrzyj do [KEYMAPS.md](KEYMAPS.md). Ta ściąga jest generowana komendą
 │       ├── treesitter.lua     podświetlanie, textobjecty af/if, ]f [f
 │       ├── debug.lua          nvim-dap, dap-ui          F5 F9 F11 F12, <leader>b, <leader>dr
 │       ├── editing.lua        todo-comments, szablony, auto-nawiasy
+│       ├── notebook.lua       notebooki .ipynb: jupytext, render-markdown, quarto, molten   <leader>j, ]j [j
 │       └── ui.lua             which-key, kolory, lualine, animacje
 ├── skeleton/                  szablony nowych plików (c, cpp, hpp, Makefile)
 └── snippets/                  snippety blink (cs.json)
@@ -97,7 +99,7 @@ linii, usunięcie to `dd`, nowy plik to nowa linia. Zmiany wykonuje dopiero `:w`
 **Po strukturze kodu (treesitter):** `]f` / `[f` przeskakują do następnej / poprzedniej
 funkcji, `]c` / `[c` do klasy. `<C-Space>` zaczyna zaznaczać węzeł składni; kolejne
 `<C-Space>` rozszerza zaznaczenie, `<BS>` je zmniejsza. Działa tylko w językach,
-dla których jest zainstalowany parser (zob. [Troubleshooting](#10-troubleshooting)).
+dla których jest zainstalowany parser (zob. [Troubleshooting](#11-troubleshooting)).
 
 **Okna:** `<leader>v` pionowy split, `<C-h>` / `<C-l>` przejście w lewo / prawo,
 `<leader>,` / `<leader>.` zwężenie / poszerzenie.
@@ -323,7 +325,43 @@ Lista wszystkich wystąpień w projekcie: `<leader>fd`.
 
 ---
 
-## 8. Jak zmienić config
+## 8. Notebooki Jupytera (.ipynb)
+
+Otwórz `.ipynb` jak każdy plik (`nvim analiza.ipynb`, `<leader>ff`). Jupytext pokazuje go
+jako markdown: komórki tekstowe to zwykły markdown (renderowany w buforze przez
+render-markdown, czyli nagłówki, listy, tabele), a komórki kodu to bloki ```` ```python ````.
+W blokach działa pyright (quarto + otter): `K`, `<leader>gd`, `<leader>cr`, uzupełnianie.
+Nagłówek z metadanymi jupytext jest ukryty, a w trybie insert widać surowy tekst.
+
+Jeśli notebook ma w metadanych kernel `python3`, kernel startuje sam i wczytuje zapisane
+wcześniej wyniki. W innym razie uruchom go ręcznie przez `<leader>ji`.
+
+| Chcę… | Skrót |
+| --- | --- |
+| uruchomić komórkę / i przejść dalej | `<leader>jr` / `<leader>jn` |
+| uruchomić wszystkie komórki / do bieżącej włącznie | `<leader>ja` / `<leader>jb` |
+| uruchomić linię / zaznaczenie | `<leader>jl` / `<leader>jr` w trybie wizualnym |
+| skoczyć do następnej / poprzedniej komórki | `]j` / `[j` |
+| dodać komórkę kodu poniżej (tekst piszesz zwyczajnie, poza blokami) | `<leader>jc` |
+| zobaczyć cały wynik w oknie (drugi raz: wejść do niego) | `<leader>jo`, ukrycie `<leader>jh` |
+| usunąć wynik komórki | `<leader>jd` |
+| przerwać / zrestartować kernel | `<leader>jx` / `<leader>jk` |
+
+Wynik pojawia się jako tekst pod komórką, a wykresy (matplotlib itd.) jako obrazki.
+Obrazki działają w Ghostty i kitty, w tmux dzięki `allow-passthrough on` w `tmux.conf`.
+`:w` zapisuje kod i wyniki z powrotem do `.ipynb`, więc plik dalej otworzysz w Jupyterze/VS Code.
+
+**Biblioteki w notebookach:** kernel `python3` to venv `~/.virtualenvs/neovim`. Pakiet
+doinstalujesz przez `~/.virtualenvs/neovim/bin/pip install pandas`. Kernel z innego venva:
+```bash
+<venv>/bin/pip install ipykernel
+<venv>/bin/python -m ipykernel install --user --name nazwa
+```
+Potem `<leader>ji` i wybierz `nazwa`.
+
+---
+
+## 9. Jak zmienić config
 
 **Nowy plugin:**
 1. Dodaj `{ src = "https://github.com/autor/plugin" }` w `lua/bartus/pack.lua`.
@@ -358,7 +396,7 @@ testu zmian w jednym module. Zmiany w `init.lua` i `pack.lua` wymagają restartu
 
 ---
 
-## 9. Instalacja od zera na nowym Macu
+## 10. Instalacja od zera na nowym Macu
 
 ```bash
 # 1. narzędzia systemowe
@@ -373,6 +411,13 @@ bob install nightly && bob use nightly
 
 # 3. config
 git clone <adres-repo> ~/.config/nvim
+
+# 3a. notebooki: Python dla molten/jupytext + obrazki (wymagane przez plugins/notebook.lua)
+brew install imagemagick python@3.13
+python3.13 -m venv ~/.virtualenvs/neovim
+~/.virtualenvs/neovim/bin/pip install pynvim jupyter_client ipykernel jupytext nbformat matplotlib pillow
+~/.virtualenvs/neovim/bin/python -m ipykernel install --user --name python3
+mkdir -p ~/Library/Jupyter/runtime
 
 # 4. pierwsze uruchomienie: vim.pack instaluje pluginy (potwierdź)
 nvim
@@ -395,7 +440,7 @@ Debugger C# (netcoredbg dla arm64) jest dołączony do pluginu
 
 ---
 
-## 10. Troubleshooting
+## 11. Troubleshooting
 
 | Objaw | Co sprawdzić |
 | --- | --- |
