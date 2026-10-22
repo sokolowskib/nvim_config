@@ -2,7 +2,7 @@
 -- Brak keymapów. Zależy tylko od wbudowanego API Neovima.
 
 vim.api.nvim_create_autocmd('BufReadPost', {
-	group = vim.api.nvim_create_augroup('bartus/last_location', { clear = true }),
+	group = vim.api.nvim_create_augroup('sokolowskib/last_location', { clear = true }),
 	desc = 'Go to the last location when opening a buffer',
 	callback = function(args)
 		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
