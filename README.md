@@ -1,107 +1,98 @@
 # nvim
 
-Mój config Neovima. Głównie piszę w C, Ruście i C#, czasem Python w notebookach.
-Nightly (0.12) z `bob`, macOS na M-ce. Pluginy przez wbudowany `vim.pack`, lazy.nvim
-przestał mi być potrzebny, odkąd to weszło do core'a.
+My Neovim config. I mostly write C, Rust and C#.
+Nightly (0.12) via `bob`, macOS on Apple Silicon. Plugins go through the built-in
+`vim.pack`, I stopped needing lazy.nvim once that landed in core.
 
-`<leader>` to spacja. Jak zapomnę skrótu, to which-key i tak podpowie.
+`<leader>` is space. If I forget a mapping, which-key reminds me anyway.
 
-## Struktura
+## Layout
 
 ```
-init.lua                 same require'y
-lsp/roslyn.lua           ustawienia serwera C#
+init.lua                 just requires
+lsp/roslyn.lua           C# server settings
 lua/sokolowskib/
-  pack.lua               lista pluginów
-  core/                  opcje, ogólne keymapy, autocmdy
-  plugins/               jeden plik na temat (lsp, debug, find, notebook...)
-skeleton/                szablony nowych plików C/C++/Makefile
-snippets/                snippety w formacie VS Code
+  pack.lua               plugin list
+  core/                  options, general keymaps, autocmds
+  plugins/               one file per topic (lsp, debug, find...)
+skeleton/                templates for new C/C++/Makefile files
+snippets/                VS Code style snippets
 ```
 
-Każdy plik w `plugins/` ma na górze 2–3 linijki komentarza: co robi, jakie skróty
-zakłada i od czego zależy. Łatwiej mi tak wrócić do czegoś po pół roku.
+Every file in `plugins/` starts with a 2–3 line comment: what it does, which
+mappings it sets and what it depends on. Makes it easier to come back to
+something after half a year.
 
-## Co tu jest
+## What's in here
 
-- **Szukanie**: telescope pod `<leader>f`, oil zamiast drzewka plików (`<leader>ft`)
+- **Finding stuff**: telescope under `<leader>f`, oil instead of a file tree (`<leader>ft`)
 - **LSP**: clangd, rust_analyzer, roslyn, pyright, lua_ls, html/css/emmet, air (R).
-  Binarki z masona, roslyn z rejestru Crashdummyy
-- **Uzupełnianie**: blink.cmp, Tab wyskakuje za nawias jak nie ma menu
-- **Formatowanie**: conform przy zapisie (clang-format, black, reszta przez LSP)
-- **Debug**: nvim-dap + dap-ui, codelldb dla C/C++/Rusta, netcoredbg dla C#
-- **Notebooki**: `.ipynb` otwiera się jako markdown, komórki odpala molten,
-  wykresy renderują się w terminalu
-- **Drobiazgi**: szablony nowych plików, surround, textobjecty z treesittera,
-  gitsigns, podgląd markdowna
+  Binaries from mason, roslyn from the Crashdummyy registry
+- **Completion**: blink.cmp, Tab jumps past a closing bracket when the menu is closed
+- **Formatting**: conform on save (clang-format, black, LSP for the rest)
+- **Debugging**: nvim-dap + dap-ui, codelldb for C/C++/Rust, netcoredbg for C#
+- **Small things**: new file templates, surround, treesitter textobjects,
+  gitsigns, markdown preview
 
-## Skróty, które faktycznie używam
+## Mappings I actually use
 
 | | |
 | --- | --- |
-| `<leader>ff` / `<leader>fg` | plik / grep po projekcie |
-| `<leader>gd` / `<leader>fr` | definicja / użycia |
+| `<leader>ff` / `<leader>fg` | find file / grep the project |
+| `<leader>gd` / `<leader>fr` | definition / references |
 | `<leader>ca` / `<leader>cr` | code action / rename |
-| `<leader>cf` | formatowanie (zaznaczenia też) |
-| `<leader>e`, `g[` / `g]` | diagnostyka pod kursorem, następny / poprzedni błąd |
-| `<leader>tt` / `<leader>tr` | terminal pod spodem / z prawej |
+| `<leader>cf` | format (works on a selection too) |
+| `<leader>e`, `g[` / `g]` | diagnostic under cursor, next / previous error |
+| `<leader>tt` / `<leader>tr` | terminal below / on the right |
 | `<leader>b`, `<F5>` | breakpoint, start/continue |
 | `<F9>` / `<F11>` / `<F12>` | step over / into / out |
-| `]f` `[f`, `af` `if` | skoki i textobjecty po funkcjach |
-| `<leader>j…` | wszystko od notebooków |
+| `]f` `[f`, `af` `if` | jump between functions, function textobjects |
 
-Reszta to domyślne mapy Neovima (`K`, `grn`, `gra`, `]d`...).
+The rest are Neovim defaults (`K`, `grn`, `gra`, `]d`...).
 
-## Debugowanie
+## Debugging
 
-Konfiguracje szukają binarki same, więc nie muszę za każdym razem wpisywać ścieżki:
+The configs find the binary on their own, so I don't have to type a path every time:
 
-- **C/C++**: `build/main`, `bin/main` albo `./main`. Kompilować z `-g`
-  (szablon Makefile już to ma).
-- **Rust**: `target/debug/<nazwa z Cargo.toml>`, po `cargo build`.
-- **C#**: DLL z `bin/Debug/net*/`, po `dotnet build`.
+- **C/C++**: `build/main`, `bin/main` or `./main`. Compile with `-g`
+  (the Makefile template already does).
+- **Rust**: `target/debug/<name from Cargo.toml>`, after `cargo build`.
+- **C#**: the DLL from `bin/Debug/net*/`, after `dotnet build`.
 
-Jak nic nie znajdzie, pyta o ścieżkę. Na macOS F11/F12 zjada system, trzeba
-wyłączyć w ustawieniach klawiatury albo jechać z `fn`.
+If nothing is found, it asks for a path. On macOS the system grabs F11/F12, so
+either turn that off in keyboard settings or hold `fn`.
 
-Pierwsze odpalenie codelldb często kończy się timeoutem (Gatekeeper skanuje binarkę),
-drugi raz już działa.
+The first codelldb run often times out (Gatekeeper scanning the binary),
+the second one works.
 
-## Rzeczy, o które się potknąłem
+## Things I tripped over
 
-- rust_analyzer i roslyn chcą, żeby nvim był otwarty w katalogu projektu
-  (z `Cargo.toml` / `.sln`). Inaczej `Root directory: nil` i nic nie działa.
-- Pierwsze otwarcie projektu w Ruście czy C# to kilkanaście sekund indeksowania,
-  zanim `gd` zacznie odpowiadać.
-- clangd przy większym projekcie potrzebuje `compile_commands.json`:
-  `bear -- make` albo `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` w CMake'u.
-- Obrazki z notebooków w tmuxie wymagają `allow-passthrough on`.
-- Jak coś się sypie przy starcie: `nvim --headless +qa` pokazuje błąd bez UI.
+- rust_analyzer and roslyn want nvim opened in the project directory
+  (with `Cargo.toml` / `.sln`). Otherwise it's `Root directory: nil` and nothing works.
+- Opening a Rust or C# project for the first time means a dozen or so seconds
+  of indexing before `gd` starts responding.
+- clangd on anything bigger needs `compile_commands.json`:
+  `bear -- make`, or `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` with CMake.
+- If something breaks on startup, `nvim --headless +qa` shows the error without the UI.
 
-## Instalacja
+## Install
 
 ```bash
 xcode-select --install
-brew install bob ripgrep node dotnet imagemagick python@3.13
+brew install bob ripgrep node dotnet
 curl https://sh.rustup.rs -sSf | sh
 
 bob install nightly && bob use nightly
 git clone https://github.com/sokolowskib/nvim_config ~/.config/nvim
 
-# venv dla notebooków
-python3.13 -m venv ~/.virtualenvs/neovim
-~/.virtualenvs/neovim/bin/pip install pynvim jupyter_client ipykernel jupytext nbformat matplotlib pillow
-~/.virtualenvs/neovim/bin/python -m ipykernel install --user --name python3
-mkdir -p ~/Library/Jupyter/runtime
-
-nvim   # vim.pack sam ściągnie pluginy
+nvim   # vim.pack pulls the plugins by itself
 ```
 
-Potem w środku:
+Then inside:
 
 ```vim
 :MasonInstall clangd rust-analyzer roslyn pyright lua-language-server html-lsp css-lsp emmet-ls air clang-format black codelldb
 :TSInstall c cpp rust c_sharp lua python markdown markdown_inline vim vimdoc query
 ```
 
-netcoredbg dla arm64 przychodzi z pluginem, nie trzeba go instalować osobno.
+netcoredbg for arm64 ships with its plugin, no separate install needed.
