@@ -27,7 +27,7 @@ something after half a year.
 
 - **Finding stuff**: telescope under `<leader>f`, oil instead of a file tree (`<leader>ft`)
 - **LSP**: clangd, rust_analyzer, roslyn, pyright, lua_ls.
-- **Completion**: blink.cmp, 
+- **Completion**: blink.cmp. 
 - **Formatting**: conform on save (clang-format, black, LSP for the rest)
 - **Debugging**: nvim-dap + dap-ui, codelldb for C/C++/Rust, netcoredbg for C#
 - **Small things**: new file templates, surround, treesitter textobjects,
