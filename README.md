@@ -26,9 +26,8 @@ something after half a year.
 ## What's in here
 
 - **Finding stuff**: telescope under `<leader>f`, oil instead of a file tree (`<leader>ft`)
-- **LSP**: clangd, rust_analyzer, roslyn, pyright, lua_ls, html/css/emmet, air (R).
-  Binaries from mason, roslyn from the Crashdummyy registry
-- **Completion**: blink.cmp, Tab jumps past a closing bracket when the menu is closed
+- **LSP**: clangd, rust_analyzer, roslyn, pyright, lua_ls.
+- **Completion**: blink.cmp, 
 - **Formatting**: conform on save (clang-format, black, LSP for the rest)
 - **Debugging**: nvim-dap + dap-ui, codelldb for C/C++/Rust, netcoredbg for C#
 - **Small things**: new file templates, surround, treesitter textobjects,
@@ -48,7 +47,6 @@ something after half a year.
 | `<F9>` / `<F11>` / `<F12>` | step over / into / out |
 | `]f` `[f`, `af` `if` | jump between functions, function textobjects |
 
-The rest are Neovim defaults (`K`, `grn`, `gra`, `]d`...).
 
 ## Debugging
 
@@ -71,9 +69,6 @@ the second one works.
   (with `Cargo.toml` / `.sln`). Otherwise it's `Root directory: nil` and nothing works.
 - Opening a Rust or C# project for the first time means a dozen or so seconds
   of indexing before `gd` starts responding.
-- clangd on anything bigger needs `compile_commands.json`:
-  `bear -- make`, or `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` with CMake.
-- If something breaks on startup, `nvim --headless +qa` shows the error without the UI.
 
 ## Install
 
